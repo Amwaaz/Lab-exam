@@ -1,15 +1,14 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import React from "react";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Tabs } from "expo-router";
+import { StyleSheet } from "react-native";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import Colors from "@/constants/Colors";
+import { useColorScheme } from "@/components/useColorScheme";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+// Tab Bar Icon Component
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
@@ -21,39 +20,43 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        tabBarActiveTintColor: "#6cb2eb", // Active tab color
+        tabBarInactiveTintColor: "#a9a9a9", // Inactive tab color
+        headerShown: true,
+      }}
+    >
+      {/* Home Tab */}
       <Tabs.Screen
-        name="index"
+        name="index" // Name of the file
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: "Home", // Header and tab title
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerTitleAlign: "center",
         }}
       />
+
+      {/* Profile Tab */}
       <Tabs.Screen
-        name="two"
+        name="Profile" // Name of the file (Profile.tsx in (tabs) folder)
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Profile", // Header and tab title
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerTitleAlign: "center",
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: 60,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+});
